@@ -31,6 +31,85 @@ Hey, Netology
 
 ### Решение 1
 
+Скачивание образа nginx:
+```bash
+docker pull nginx:1.21.1
+```
+Редактирование файла Dockerfile:
+
+```
+FROM nginx:1.21.1
+
+WORKDIR /usr/share/nginx/html/
+COPY index.html ./
+```
+
+Сборка кастомизированного образа:
+```bash
+docker build -t hachubra/custom_nginx:1.0.0 .
+```
+Вывод:
+```bash
+alex@ubu04:~/virtd-hw/05-virt-03-docker-intro$ docker build -t hachubra/custom_nginx:1.0.0 .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            Install the buildx component to build images with BuildKit:
+            https://docs.docker.com/go/buildx/
+
+Sending build context to Docker daemon  15.36kB
+Step 1/3 : FROM nginx:1.21.1
+ ---> 822b7ec2aaf2
+Step 2/3 : WORKDIR /usr/share/nginx/html/
+ ---> Running in 93150502b783
+Removing intermediate container 93150502b783
+ ---> 17755b0120a3
+Step 3/3 : COPY index.html ./
+ ---> df8f1f8d87d3
+Successfully built df8f1f8d87d3
+Successfully tagged hachubra/custom_nginx:1.0.0
+```
+
+Запуск контейнера для проверки корректности работы:
+```bash
+docker run -p 81:80 hachubra/custom_nginx:1.0.0
+```
+![screenshot1](https://github.com/hachubra/sdvps-materials/blob/main/images/.png)
+
+Вход в Docker Hub:
+```bash
+docker login
+```
+Вывод:
+```bash
+alex@ubu04:~/virtd-hw/05-virt-03-docker-intro$ docker login
+Log in with your Docker ID or email address to push and pull images from Docker Hub. If you don't have a Docker ID, head over to https://hub.docker.com/ to create one.
+You can log in with your password or a Personal Access Token (PAT). Using a limited-scope PAT grants better security and is required for organizations using SSO. Learn more at https://docs.docker.com/go/access-tokens/
+
+Username: solovyov_alex@mail.ru
+Password: 
+WARNING! Your password will be stored unencrypted in /home/alex/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+```
+Загрузка образа в репозиторий Docker Hub:
+```bash
+docker push hachubra/custom_nginx:1.0.0
+```
+Вывод:
+```bash
+alex@ubu04:~/virtd-hw/05-virt-03-docker-intro$ docker push hachubra/custom_nginx:1.0.0
+The push refers to repository [docker.io/hachubra/custom_nginx]
+1586628c9f7e: Pushed 
+d47e4d19ddec: Mounted from library/nginx 
+8e58314e4a4f: Mounted from library/nginx 
+ed94af62a494: Mounted from library/nginx 
+875b5b50454b: Mounted from library/nginx 
+63b5f2c0d071: Mounted from library/nginx 
+d000633a5681: Mounted from library/nginx 
+1.0.0: digest: sha256:58650a9e52d61689d694550e676eb0de4841860689c90d2c199d3aa9b57f5cbb size: 1777
+```
+
 ---
 
 ## Задача 2
