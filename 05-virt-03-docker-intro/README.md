@@ -128,6 +128,30 @@ d000633a5681: Mounted from library/nginx
 
 ### Решение 2
 
+Запуск контейнера  **(порт с 8080 изменил на 8081, так как 8080 уже занят на ВМ):**
+
+```bash
+docker run -d -p 127.0.0.1:8081:80 --name "solovev-alex-nginx-t2" hachubra/custom_nginx:1.0.0  
+```
+```bash
+alex@ubu04:~/virtd-hw$ docker run -d -p 127.0.0.1:8081:80 --name "solovev-alex-nginx-t2" hachubra/custom_nginx:1.0.0 
+a614c22201e86aa16b8ea94e454055949b75f00d1b6486de9577548955f49528
+```
+
+```bash
+alex@ubu04:~/virtd-hw$ docker ps
+```
+```bash
+CONTAINER ID   IMAGE                         COMMAND                  CREATED          STATUS          PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   45 seconds ago   Up 44 seconds   127.0.0.1:8081->80/tcp                                                                                                                                solovev-alex-nginx-t2
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago      Up 22 hours     33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago      Up 22 hours     33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago      Up 22 hours     33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago      Up 22 hours     33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago     Up 22 hours     0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago     Up 22 hours     4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago     Up 22 hours     4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp      
+```
 ---
 
 ## Задача 3
