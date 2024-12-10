@@ -210,6 +210,209 @@ SSB3aWxsIGJlIERldk9wcyBFbmdpbmVlciE8L2gxPgo8L2JvZHk+Cgo8L2h0bWw+
 
 ### Решение 3
 
+Подключение к к стандартному потоку ввода/вывода/ошибок контейнера "custom-nginx-t2":
+
+```bash
+alex@ubu04:~/virtd-hw$ docker attach custom-nginx-t2
+
+^C2024/12/10 12:23:53 [notice] 1#1: signal 2 (SIGINT) received, exiting
+2024/12/10 12:23:53 [notice] 29#29: exiting
+2024/12/10 12:23:53 [notice] 29#29: exit
+2024/12/10 12:23:53 [notice] 32#32: exiting
+2024/12/10 12:23:53 [notice] 32#32: exit
+2024/12/10 12:23:53 [notice] 30#30: exiting
+2024/12/10 12:23:53 [notice] 30#30: exit
+2024/12/10 12:23:53 [notice] 31#31: exiting
+2024/12/10 12:23:53 [notice] 31#31: exit
+2024/12/10 12:23:53 [notice] 1#1: signal 17 (SIGCHLD) received from 29
+2024/12/10 12:23:53 [notice] 1#1: worker process 29 exited with code 0
+2024/12/10 12:23:53 [notice] 1#1: worker process 32 exited with code 0
+2024/12/10 12:23:53 [notice] 1#1: signal 29 (SIGIO) received
+2024/12/10 12:23:53 [notice] 1#1: signal 17 (SIGCHLD) received from 30
+2024/12/10 12:23:53 [notice] 1#1: worker process 30 exited with code 0
+2024/12/10 12:23:53 [notice] 1#1: worker process 31 exited with code 0
+2024/12/10 12:23:53 [notice] 1#1: exit
+```
+
+**ctrl+c  привел к остановке так как завершился родительский процесс, а при его завершении останавливается весь контейнер**
+
+```bash
+alex@ubu04:~/virtd-hw$ docker ps -a
+```
+```
+alex@ubu04:~/virtd-hw$ docker ps -a
+CONTAINER ID   IMAGE                         COMMAND                  CREATED        STATUS                      PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   3 hours ago    Exited (0) 33 seconds ago                                                                                                                                                         custom-nginx-t2
+7aa829621fe9   postgres:latest               "docker-entrypoint.s…"   7 weeks ago    Exited (0) 6 weeks ago                                                                                                                                                            postgres_b
+fe28b830ed10   postgres:latest               "docker-entrypoint.s…"   7 weeks ago    Exited (0) 6 weeks ago                                                                                                                                                            postgres_b3
+cac181e19a09   postgres:latest               "docker-entrypoint.s…"   7 weeks ago    Exited (0) 6 weeks ago                                                                                                                                                            postgres_b2
+8f1dfaf27995   postgres:latest               "docker-entrypoint.s…"   7 weeks ago    Exited (0) 6 weeks ago                                                                                                                                                            postgres_b1
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago    Up 13 minutes               33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago    Up 13 minutes               33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 13 minutes               33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 13 minutes               33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 13 minutes               0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago   Up 13 minutes               4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago   Up 13 minutes               4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp                                                                                  rabbitmq2
+1e546a72b771   redis                         "docker-entrypoint.s…"   3 months ago   Exited (0) 3 months ago                                                                                                                                                           reist
+53fb48f5bba0   memcached                     "docker-entrypoint.s…"   3 months ago   Exited (0) 3 months ago                                                                                                                                                           memc
+5ffe458d56b7   sonarqube:community           "/opt/sonarqube/dock…"   5 months ago   Exited (130) 5 months ago                                                                                                                                                         gitlab-sonarqube-1
+b03751a146a7   postgres:12                   "docker-entrypoint.s…"   5 months ago   Exited (0) 5 months ago                                                                                                                                                           gitlab-db-1
+```
+Перезапуск контейнера:
+
+```bash
+alex@ubu04:~/virtd-hw$ docker ps
+```
+```
+CONTAINER ID   IMAGE                         COMMAND                  CREATED             STATUS         PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   About an hour ago   Up 4 seconds   127.0.0.1:8081->80/tcp                                                                                                                                custom-nginx-t2
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago         Up 24 hours    33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago         Up 24 hours    33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago        Up 24 hours    33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago        Up 24 hours    33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago        Up 24 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago        Up 24 hours    4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago        Up 24 hours    4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp                                                                                  rabbitmq2
+```
+```bash
+docker exec -it custom-nginx-t2 bash
+```
+```bash
+root@a614c22201e8:/usr/share/nginx/html#
+```
+Установка nano внутри контейнера:
+
+```bash
+root@a614c22201e8:/usr/share/nginx/html# apt update
+```
+```bash
+Get:1 http://security.debian.org/debian-security buster/updates InRelease [34.8 kB]
+Get:2 http://deb.debian.org/debian buster InRelease [122 kB]                       
+Get:3 http://deb.debian.org/debian buster-updates InRelease [56.6 kB]
+Get:4 http://security.debian.org/debian-security buster/updates/main amd64 Packages [610 kB]
+Get:5 http://deb.debian.org/debian buster/main amd64 Packages [7909 kB]
+Get:6 http://deb.debian.org/debian buster-updates/main amd64 Packages [8788 B]
+Fetched 8741 kB in 3s (3474 kB/s)                         
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+56 packages can be upgraded. Run 'apt list --upgradable' to see them.
+```
+```bash
+root@a614c22201e8:/usr/share/nginx/html# apt install nano
+```
+```bash
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+Suggested packages:
+  spell
+The following NEW packages will be installed:
+  nano
+0 upgraded, 1 newly installed, 0 to remove and 56 not upgraded.
+Need to get 545 kB of archives.
+After this operation, 2269 kB of additional disk space will be used.
+Get:1 http://security.debian.org/debian-security buster/updates/main amd64 nano amd64 3.2-3+deb10u1 [545 kB]
+Fetched 545 kB in 0s (2220 kB/s)
+debconf: delaying package configuration, since apt-utils is not installed
+Selecting previously unselected package nano.
+(Reading database ... 7638 files and directories currently installed.)
+Preparing to unpack .../nano_3.2-3+deb10u1_amd64.deb ...
+Unpacking nano (3.2-3+deb10u1) ...
+Setting up nano (3.2-3+deb10u1) ...
+update-alternatives: using /bin/nano to provide /usr/bin/editor (editor) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/editor.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group editor) doesn't exist
+update-alternatives: using /bin/nano to provide /usr/bin/pico (pico) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/pico.1.gz because associated file /usr/share/man/man1/nano.1.gz (of link group pico) doesn't exist
+root@a614c22201e8:/usr/share/nginx/html# 
+```
+```bash
+root@a614c22201e8:/usr/share/nginx/html# nano /etc/nginx/conf.d/default.conf
+```
+```bash
+root@a614c22201e8:/usr/share/nginx/html# nginx -s reload
+2024/12/10 10:44:28 [notice] 323#323: signal process started
+```
+```bash
+curl http://127.0.0.1:80 ; curl http://127.0.0.1:81
+```
+```html
+curl: (7) Failed to connect to 127.0.0.1 port 80: Connection refused
+<html>
+
+<head>
+    Hey, Netology
+</head>
+
+<body>
+    <h1>I will be DevOps Engineer!</h1>
+</body>
+
+</html>
+```
+
+```bash 
+ss -tlpn | grep 127.0.0.1:8081
+``` 
+```
+LISTEN 0      1024       127.0.0.1:8080       0.0.0.0:* 
+```
+```bash
+docker port custom-nginx-t2
+```
+```
+80/tcp -> 127.0.0.1:8081
+```
+```bash
+curl http://127.0.0.1:8081
+```
+```
+curl: (56) Recv failure: Connection reset by peer
+```
+
+Проблема с подключением связана с тем, что внутри контейнера изменился порт с 80 на 81.
+Для исправления ошибки необходимо изменить порт, на который прокидывается порт хостовой маашины внутрь контейнера:
+
+```bash
+docker stop custom-nginx-t2
+```
+```bash
+systemctl stop docker.socket
+```
+```bash
+systemctl stop docker
+```
+Далее редактируем файл config.v2.json (находим него по идентификатору в каталоге /var/lib/docker/containers/):
+```bash
+sed 's/"ExposedPorts":{"80\/tcp":{}}/"ExposedPorts":{"81\/tcp":{}}/'  /var/lib/docker/containers/a614c22201e86aa16b8ea94e454055949b75f00d1b6486de9577548955f49528/config.v2.json
+```
+Запускаем сначала docker.socket, затем docker, после сам контейнер. 
+```bash
+systemctl start docker.socket 
+```
+```bash
+systemctl start docker
+```
+```bash
+docker start custom-nginx-t2
+```
+```bash
+docker ps
+```
+```
+CONTAINER ID   IMAGE                         COMMAND                  CREATED        STATUS          PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   3 hours ago    Up 6 seconds    81/tcp                                                                                                                                                custom-nginx-t2
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago    Up 35 seconds   33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago    Up 36 seconds   33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 36 seconds   33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 36 seconds   33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago   Up 36 seconds   0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago   Up 36 seconds   4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago   Up 36 seconds   4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp                                                                                  rabbitmq2
+```
+
+![screenshot5](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/5.png)
 ---
 
 ## Задача 4
