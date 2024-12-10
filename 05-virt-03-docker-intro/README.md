@@ -433,11 +433,29 @@ docker pull debian
 docker pull centos
 ```
 ```bash
-docker run -t -d -v $(pwd):/data/ centos:latest
+docker run --name centos -t -d -v $(pwd):/data/ centos:latest
 ```
 ```bash
-docker run -t -d -v $(pwd):/data/ debian:latest
+docker run --name debian -t -d -v $(pwd):/data/ debian:latest 
 ```
+```bash
+docker exec -it centos bash
+[root@a80fad1c5a7f /]# touch /data/new_file.txt
+[root@a80fad1c5a7f /]# ls /data
+host_file.txt  new_file.txt  somefile.txt
+[root@a80fad1c5a7f /]# 
+```
+```bash
+alex@ubu04:~/virtd-hw/volume$ touch host_file.txt
+```
+```bash
+alex@ubu04:~/virtd-hw$ docker exec -it debian bash
+root@0eb881fc8ac0:/# ls /data
+host_file.txt  new_file.txt  somefile.txt
+root@0eb881fc8ac0:/# 
+```
+![screenshot6](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/6.png)
+
 ---
 
 ## Задача 5
