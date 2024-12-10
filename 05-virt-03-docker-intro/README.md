@@ -110,6 +110,8 @@ ed94af62a494: Mounted from library/nginx
 d000633a5681: Mounted from library/nginx 
 1.0.0: digest: sha256:58650a9e52d61689d694550e676eb0de4841860689c90d2c199d3aa9b57f5cbb size: 1777
 ```
+Ссылка на образ:
+! [custom_nginx](https://hub.docker.com/repository/docker/hachubra/custom_nginx/general)
 
 ---
 
