@@ -72,7 +72,8 @@ Successfully tagged hachubra/custom_nginx:1.0.0
 ```bash
 docker run -p 81:80 hachubra/custom_nginx:1.0.0
 ```
-![screenshot1](https://github.com/hachubra/sdvps-materials/blob/main/images/.png)
+![screenshot1](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/1.png)
+![screenshot2](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/2.png)
 
 Вход в Docker Hub:
 ```bash
