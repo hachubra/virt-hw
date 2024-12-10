@@ -152,6 +152,44 @@ a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks 
 e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago     Up 22 hours     4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
 d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago     Up 22 hours     4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp      
 ```
+
+```bash
+docker ps
+```
+```bash
+CONTAINER ID   IMAGE                         COMMAND                  CREATED         STATUS         PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   4 minutes ago   Up 4 minutes   127.0.0.1:8081->80/tcp                                                                                                                                custom-nginx-t2
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 22 hours    33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 22 hours    33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 22 hours    33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 22 hours    33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago    Up 22 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago    Up 22 hours    4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago    Up 22 hours    4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp                                                                                  rabbitmq2
+```
+Выполнение команды:
+```bash
+date +"%d-%m-%Y %T.%N %Z" ; sleep 0.150 ; docker ps ; ss -tlpn | grep 127.0.0.1:8081  ; docker logs custom-nginx-t2 -n1 ; docker exec -it custom-nginx-t2 base64 /usr/share/nginx/html/index.html
+```
+```bash
+10-12-2024 14:15:42.930489649 +05
+CONTAINER ID   IMAGE                         COMMAND                  CREATED         STATUS         PORTS                                                                                                                                                 NAMES
+a614c22201e8   hachubra/custom_nginx:1.0.0   "/docker-entrypoint.…"   8 minutes ago   Up 8 minutes   127.0.0.1:8081->80/tcp                                                                                                                                custom-nginx-t2
+01d01d1b1b63   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 23 hours    33060/tcp, 0.0.0.0:3310->3306/tcp, :::3310->3306/tcp                                                                                                  master1
+a0f3cba240ff   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 23 hours    33060/tcp, 0.0.0.0:3309->3306/tcp, :::3309->3306/tcp                                                                                                  master2
+687558216a66   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 23 hours    33060/tcp, 0.0.0.0:3307->3306/tcp, :::3307->3306/tcp                                                                                                  mysql-slave
+030d5e50f15a   mysql:8.4.2                   "docker-entrypoint.s…"   8 weeks ago     Up 23 hours    33060/tcp, 0.0.0.0:3308->3306/tcp, :::3308->3306/tcp                                                                                                  mysql-master
+9e91c37083fc   mysql:8.4.2                   "docker-entrypoint.s…"   2 months ago    Up 23 hours    0.0.0.0:3306->3306/tcp, :::3306->3306/tcp, 33060/tcp                                                                                                  mysql
+e1fdde56c212   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago    Up 23 hours    4369/tcp, 5671/tcp, 0.0.0.0:5672->5672/tcp, :::5672->5672/tcp, 15671/tcp, 15691-15692/tcp, 25672/tcp, 0.0.0.0:15672->15672/tcp, :::15672->15672/tcp   rabbitmq1
+d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months ago    Up 23 hours    4369/tcp, 5671-5672/tcp, 15671-15672/tcp, 15691-15692/tcp, 25672/tcp                                                                                  rabbitmq2
+LISTEN 0      2048       127.0.0.1:8081       0.0.0.0:*          
+2024/12/10 09:06:49 [notice] 1#1: start worker process 34
+PGh0bWw+Cgo8aGVhZD4KICAgIEhleSwgTmV0b2xvZ3kKPC9oZWFkPgoKPGJvZHk+CiAgICA8aDE+
+SSB3aWxsIGJlIERldk9wcyBFbmdpbmVlciE8L2gxPgo8L2JvZHk+Cgo8L2h0bWw+
+```
+![screenshot3](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/3.png)
+![screenshot4](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/4.png)
+
 ---
 
 ## Задача 3
