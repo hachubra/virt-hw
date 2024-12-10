@@ -15,3 +15,10 @@ date +"%d-%m-%Y %T.%N %Z" ; sleep 0.150 ; docker ps ; ss -tlpn | grep 127.0.0.1:
 docker logs -f custom-nginx-t2
 docker ps -a
 docker restart custom-nginx-t2
+
+docker exec -it custom-nginx-t2 bash
+
+#4
+
+docker run --name centos -t -d -v $(pwd):/data/ centos:latest
+docker run --name debian -t -d -v $(pwd):/data/ debian:latest

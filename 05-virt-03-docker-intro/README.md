@@ -428,7 +428,16 @@ d6febb386f8c   rabbitmq:3.10.7-management    "docker-entrypoint.s…"   3 months
 В качестве ответа приложите скриншоты консоли, где видно все введенные команды и их вывод.
 
 ### Решение 4
-
+```bash
+docker pull debian
+docker pull centos
+```
+```bash
+docker run -t -d -v $(pwd):/data/ centos:latest
+```
+```bash
+docker run -t -d -v $(pwd):/data/ debian:latest
+```
 ---
 
 ## Задача 5
