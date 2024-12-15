@@ -507,6 +507,116 @@ services:
 
 ### Решение 5
 
+**Создание файлов:**
+```bash
+touch compose.yaml
+touch docker-compose.yaml
+```
+```bash
+docker compose up -d
+```
+**Используется файл compose.yaml, так как файл docker-compose.yaml является устаревшим и поддерживается для обратной совместимости, с меньшим приоритетом.**
+```
+WARN[0000] Found multiple config files with supported names: /home/alex/virtd-hw/05-virt-03-docker-intro/compose/compose.yaml, /home/alex/virtd-hw/05-virt-03-docker-intro/compose/docker-compose.yaml 
+WARN[0000] Using /home/alex/virtd-hw/05-virt-03-docker-intro/compose/compose.yaml 
+[+] Running 12/12
+ ⠿ portainer Pulled                                                                                                                                                                                                                                                                                                               9.2s
+   ⠿ 2a8c27161aa3 Pull complete                                                                                                                                                                                                                                                                                                   0.7s
+   ⠿ 679061c2c821 Pull complete                                                                                                                                                                                                                                                                                                   0.8s
+   ⠿ d40df14c1d7a Pull complete                                                                                                                                                                                                                                                                                                   2.1s
+   ⠿ 8215717c7c10 Pull complete                                                                                                                                                                                                                                                                                                   4.0s
+   ⠿ 542669febe7c Pull complete                                                                                                                                                                                                                                                                                                   4.8s
+   ⠿ 6c27c7f45b54 Pull complete                                                                                                                                                                                                                                                                                                   5.5s
+   ⠿ 070d3bf2528e Pull complete                                                                                                                                                                                                                                                                                                   5.5s
+   ⠿ 846480e9f8b0 Pull complete                                                                                                                                                                                                                                                                                                   6.2s
+   ⠿ c7053d7d4c2a Pull complete                                                                                                                                                                                                                                                                                                   6.6s
+   ⠿ a2ed6de7fb5f Pull complete                                                                                                                                                                                                                                                                                                   6.6s
+   ⠿ 4f4fb700ef54 Pull complete                                                                                                                                                                                                                                                                                                   6.6s
+[+] Running 1/1
+ ⠿ Container compose-portainer-1  Started           
+```
+**Измененный compose.yaml:**
+```yaml
+version: "3"
+include:
+  - docker-compose.yaml
+services:
+  portainer:
+    network_mode: host
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
+**Запуск объединенной конфигурации:**
+```bash
+docker compose up -d
+```
+
+```
+WARN[0000] Found multiple config files with supported names: /home/alex/virtd-hw/05-virt-03-docker-intro/compose/compose.yaml, /home/alex/virtd-hw/05-virt-03-docker-intro/compose/docker-compose.yaml 
+WARN[0000] Using /home/alex/virtd-hw/05-virt-03-docker-intro/compose/compose.yaml 
+WARN[0000] /home/alex/virtd-hw/05-virt-03-docker-intro/compose/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] /home/alex/virtd-hw/05-virt-03-docker-intro/compose/compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 6/6
+ ✔ registry Pulled                                                                                                                                                                                                                                                                                                                4.7s 
+   ✔ dc0decf4841d Pull complete                                                                                                                                                                                                                                                                                                   1.4s 
+   ✔ 6cb0aa443e23 Pull complete                                                                                                                                                                                                                                                                                                   1.8s 
+   ✔ 813676e291ef Pull complete                                                                                                                                                                                                                                                                                                   2.1s 
+   ✔ dc2fb7dcec61 Pull complete                                                                                                                                                                                                                                                                                                   2.2s 
+   ✔ 916205650bfe Pull complete                                                                                                                                                                                                                                                                                                   2.2s 
+[+] Running 3/3
+ ✔ Network compose_default        Created                                                                                                                                                                                                                                                                                         0.2s 
+ ✔ Container compose-portainer-1  Started                                                                                                                                                                                                                                                                                         0.5s 
+ ✔ Container compose-registry-1   Started   
+```
+**Копирование образа custom-nginx в локальное registry**
+```bash
+docker tag hachubra/custom_nginx:1.0.0 localhost:5000/custom_nginx
+```
+```bash
+docker push localhost:5000/custom_nginx
+```
+```
+Using default tag: latest
+The push refers to repository [localhost:5000/custom_nginx]
+1586628c9f7e: Pushed 
+d47e4d19ddec: Pushed 
+8e58314e4a4f: Pushed 
+ed94af62a494: Pushed 
+875b5b50454b: Pushed 
+63b5f2c0d071: Pushed 
+d000633a5681: Pushed 
+latest: digest: sha256:58650a9e52d61689d694550e676eb0de4841860689c90d2c199d3aa9b57f5cbb size: 1777
+```
+![screenshot7](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/7.png)
+![screenshot8](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/8.png)
+![screenshot9](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/9.png)
+![screenshot10](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/10.png)
+**Удаляем compose.yaml**
+```bash
+rm compose.yaml 
+```
+
+```bash
+alex@ubu04:~/virtd-hw/05-virt-03-docker-intro/compose$ docker compose up -d
+WARN[0000] /home/alex/virtd-hw/05-virt-03-docker-intro/compose/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+WARN[0000] Found orphan containers ([compose-portainer-1]) for this project. If you removed or renamed this service in your compose file, you can run this command with the --remove-orphans flag to clean it up. 
+[+] Running 1/0
+ ✔ Container compose-registry-1  Running                                                                                                                                                                                                                                 0.0s 
+```
+**Ошибка говорит о том, что обнаружен "осиротевший" контейнер (для которого отсутствует запись в compose файле).**
+**Исправление ошибки c удалением "сироты":**
+```bash
+docker compose up -d --remove-orphans
+```
+```bash
+WARN[0000] /home/alex/virtd-hw/05-virt-03-docker-intro/compose/docker-compose.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
+[+] Running 2/1
+ ✔ Container compose-portainer-1  Removed                                                                                                                                                                                                                                0.2s 
+ ✔ Container compose-registry-1   Running  
+```
+
+![screenshot11](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-03-docker-intro/images/11.png)
 ---
 
 ### Правила приема
