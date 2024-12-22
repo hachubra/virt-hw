@@ -228,7 +228,27 @@ e49ed1d40128: Pushed
 ### Решение 4
 
 Проверка установки Docker на ВМ в Яндекс.
-![screenshot3](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/3.png
+![screenshot3](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/3.png)
+
+![screenshot4](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/4.png)
+
+Скрипт:
+
+```bash
+#!/bin/bash
+# sudo groupadd docker
+# sudo usermod -aG docker $USER
+# newgrp docker
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+sudo rm /opt/pyth/ --force --recursive && sudo git clone https://github.com/hachubra/shvirtd-example-python.git /opt/pyth && docker compose -f /opt/pyth/compose.yml up -d
+```
+
+Cсылка на fork: https://github.com/hachubra/shvirtd-example-python.git
+
 
 
 
