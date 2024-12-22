@@ -191,6 +191,7 @@ e49ed1d40128: Pushed
 
 ![screenshot1](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/1.png)
 
+
 ---
 
 ## Задача 3
