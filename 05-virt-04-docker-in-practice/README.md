@@ -327,6 +327,21 @@ alex@ubu04:~/virtd-hw$ rm archive.tar
 Добейтесь аналогичного результата, используя docker cp.  
 Предоставьте скриншоты  действий .
 
+
+### Решение 6.1
+
+```bash
+docker run -d --name terra hashicorp/terraform 
+```
+```bash
+docker cp terra:/bin/terraform ~/virtd-hw/
+```
+![screenshot10](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/10.png)
+
+```
+
+---
+
 ## Задача 6.2 (**)
 Предложите способ извлечь файл из контейнера, используя только команду docker build и любой Dockerfile.  
 Предоставьте скриншоты  действий .
