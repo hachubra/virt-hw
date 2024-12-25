@@ -264,6 +264,63 @@ Cсылка на fork: https://github.com/hachubra/shvirtd-example-python.git
 Скачайте docker образ ```hashicorp/terraform:latest``` и скопируйте бинарный файл ```/bin/terraform``` на свою локальную машину, используя dive и docker save.
 Предоставьте скриншоты  действий .
 
+
+### Решение 6
+
+```bash
+alex@ubu04:~/virtd-hw$ docker pull hashicorp/terraform:latest
+latest: Pulling from hashicorp/terraform
+ff8f8c379796: Pull complete 
+b25858963423: Pull complete 
+ebbbc0b12cf8: Pull complete 
+e443ce81d02b: Pull complete 
+Digest: sha256:460267841b38628514b75c6b0eb1cebb2d2fb5d6b596087a9c277551c801e5f1
+Status: Downloaded newer image for hashicorp/terraform:latest
+docker.io/hashicorp/terraform:latest
+```
+```bash
+alex@ubu04:~/virtd-hw$ docker run --rm -it \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    wagoodman/dive:latest hashicorp/terraform
+Unable to find image 'wagoodman/dive:latest' locally
+latest: Pulling from wagoodman/dive
+619be1103602: Pull complete 
+cf6c0733f07b: Pull complete 
+a7dfad62b2da: Pull complete 
+Digest: sha256:b4bbb985609f32ddfeb8a31f2cb254998fce2b95c358ad588a91a1ed138d6033
+Status: Downloaded newer image for wagoodman/dive:latest
+Image Source: docker://hashicorp/terraform
+Fetching image... (this can take a while for large images)
+Analyzing image...
+Building cache...
+```
+![screenshot5](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/5.png)
+![screenshot6](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/6.png)
+![screenshot7](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/7.png)
+![screenshot8](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/8.png)
+![screenshot9](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/9.png)
+
+
+sha256:a2291ae31714cd13ae948f4cf01a5599ea46e49e3991c0a056ba3719c8d84e21
+
+```bash
+docker save hashicorp/terraform -o archive.tar
+tar -xf archive.tar 
+cd blobs/sha256/
+```
+```bash
+alex@ubu04:~/virtd-hw/blobs/sha256$ tar -xf  a2291ae31714cd13ae948f4cf01a5599ea46e49e3991c0a056ba3719c8d84e21 
+cp bin/terraform ~/virtd-hw/
+```
+**удаляем мусор:**
+
+```bash
+alex@ubu04:~/virtd-hw$ rm blobs --recursive --force 
+alex@ubu04:~/virtd-hw$ rm terraform 
+alex@ubu04:~/virtd-hw$ rm archive.tar 
+```
+----
+
 ## Задача 6.1
 Добейтесь аналогичного результата, используя docker cp.  
 Предоставьте скриншоты  действий .
