@@ -297,9 +297,6 @@ Building cache...
 ![screenshot5](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/5.png)
 ![screenshot6](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/6.png)
 ![screenshot7](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/7.png)
-![screenshot8](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/8.png)
-
-
 
 sha256:a2291ae31714cd13ae948f4cf01a5599ea46e49e3991c0a056ba3719c8d84e21
 
@@ -308,6 +305,8 @@ docker save hashicorp/terraform -o archive.tar
 tar -xf archive.tar 
 cd blobs/sha256/
 ```
+![screenshot8](https://github.com/hachubra/virt-hw/blob/shvirtd-1/05-virt-04-docker-in-practice/images/8.png)
+
 ```bash
 alex@ubu04:~/virtd-hw/blobs/sha256$ tar -xf  a2291ae31714cd13ae948f4cf01a5599ea46e49e3991c0a056ba3719c8d84e21 
 cp bin/terraform ~/virtd-hw/
